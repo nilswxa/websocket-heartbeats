@@ -1,5 +1,4 @@
 import * as WebSocket from "ws";
-import {isNullOrUndefined} from "util";
 import Timer = NodeJS.Timer;
 
 /**
@@ -8,12 +7,9 @@ import Timer = NodeJS.Timer;
  */
 export class HeartbeatHandler {
 
-    private readonly STATE_OPEN: number = 1;
-    private readonly STATE_CLOSED: number = 3;
-
     private websocket: WebSocket;
     private pingInterval: number;
-    private onDeath: () => any;
+    private onDeath?: () => any;
     private alive: boolean;
 
     /**
@@ -49,7 +45,7 @@ export class HeartbeatHandler {
             this.alive = true;
         } );
 
-        if( this.websocket.readyState !== this.STATE_OPEN ) {
+        if( this.websocket.readyState !== WebSocket.OPEN ) {
 
             this.websocket.on( "open", () => {
                 this.handleHeartbeat();
@@ -72,13 +68,13 @@ export class HeartbeatHandler {
 
         let timer: Timer = setInterval( () => {
 
-            if( this.websocket.readyState === this.STATE_CLOSED ) {
+            if( this.websocket.readyState === WebSocket.CLOSED ) {
                 clearInterval( timer );
                 return;
             }
             if( !this.alive ) {
 
-                if( !isNullOrUndefined( this.onDeath ) ) {
+                if( this.onDeath ) {
                     this.onDeath();
                 }
                 this.websocket.terminate();

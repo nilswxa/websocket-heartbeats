@@ -4,9 +4,8 @@
     "description": "A simple websocket-monitoring, heartbeat-based module written in TypeScript",
     "main": "build/index.js",
     "scripts": {
-        "prepublishOnly": "tsc && cp index.d.ts build",
-        "build": "tsc && cp index.d.ts build",
-        "start": "node build/Main.js"
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -28,9 +27,10 @@
     },
     "homepage": "https://github.com/luzzif/websocket-heartbeats#readme",
     "dependencies": {
-        "@types/node": "^8.9.4",
-        "@types/ws": "^3.2.1",
-        "typescript": "^2.7.2",
         "ws": "^4.1.0"
+    },
+    "devDependencies": {
+        "@types/ws": "^6.0.1",
+        "typescript": "^3.0.3"
     }
 }
