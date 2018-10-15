@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "scripts": {
         "build": "tsc",
-        "prepublishOnly": "npm run build"
+        "prepare": "npm run build"
     },
     "repository": {
         "type": "git",
